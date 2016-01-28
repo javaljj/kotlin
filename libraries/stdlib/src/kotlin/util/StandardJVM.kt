@@ -10,19 +10,19 @@ import java.io.PrintWriter
  * Prints the stack trace of this throwable to the standard output.
  */
 @kotlin.internal.InlineOnly
-public fun Throwable.printStackTrace(): Unit = (this as java.lang.Throwable).printStackTrace()
+public inline fun Throwable.printStackTrace(): Unit = (this as java.lang.Throwable).printStackTrace()
 
 /**
  * Prints the stack trace of this throwable to the specified [writer].
  */
 @kotlin.internal.InlineOnly
-public fun Throwable.printStackTrace(writer: PrintWriter): Unit = (this as java.lang.Throwable).printStackTrace(writer)
+public inline fun Throwable.printStackTrace(writer: PrintWriter): Unit = (this as java.lang.Throwable).printStackTrace(writer)
 
 /**
  * Prints the stack trace of this throwable to the specified [stream].
  */
 @kotlin.internal.InlineOnly
-public fun Throwable.printStackTrace(stream: PrintStream): Unit = (this as java.lang.Throwable).printStackTrace(stream)
+public inline fun Throwable.printStackTrace(stream: PrintStream): Unit = (this as java.lang.Throwable).printStackTrace(stream)
 
 /**
  * Returns an array of stack trace elements representing the stack trace
