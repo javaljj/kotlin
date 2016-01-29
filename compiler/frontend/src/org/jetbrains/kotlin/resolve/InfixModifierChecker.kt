@@ -27,15 +27,14 @@ import org.jetbrains.kotlin.resolve.descriptorUtil.hasDefaultValue
 class InfixModifierChecker : DeclarationChecker {
 
     override fun check(
-            declaration: KtDeclaration?,
+            declaration: KtDeclaration,
             descriptor: DeclarationDescriptor,
-            reportOn: KtDeclaration,
             diagnosticHolder: DiagnosticSink,
             bindingContext: BindingContext
     ) {
         val functionDescriptor = descriptor as? FunctionDescriptor ?: return
         if (!functionDescriptor.isInfix) return
-        val modifier = declaration?.modifierList?.getModifier(KtTokens.INFIX_KEYWORD) ?: return
+        val modifier = declaration.modifierList?.getModifier(KtTokens.INFIX_KEYWORD) ?: return
 
         if (!isApplicable(functionDescriptor)) {
             diagnosticHolder.report(Errors.INAPPLICABLE_INFIX_MODIFIER.on(modifier))

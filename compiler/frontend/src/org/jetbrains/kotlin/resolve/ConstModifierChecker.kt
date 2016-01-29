@@ -27,13 +27,11 @@ import org.jetbrains.kotlin.psi.KtProperty
 
 object ConstModifierChecker : DeclarationChecker {
     override fun check(
-            declaration: KtDeclaration?,
+            declaration: KtDeclaration,
             descriptor: DeclarationDescriptor,
-            reportOn: KtDeclaration,
             diagnosticHolder: DiagnosticSink,
             bindingContext: BindingContext
     ) {
-        if (declaration == null) return
         if (descriptor !is VariableDescriptor || !declaration.hasModifier(KtTokens.CONST_KEYWORD)) return
 
         val constModifierPsiElement = declaration.modifierList!!.getModifier(KtTokens.CONST_KEYWORD)!!

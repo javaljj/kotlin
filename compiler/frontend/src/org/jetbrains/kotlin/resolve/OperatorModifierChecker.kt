@@ -43,15 +43,14 @@ import org.jetbrains.kotlin.util.OperatorChecks
 
 class OperatorModifierChecker : DeclarationChecker {
     override fun check(
-            declaration: KtDeclaration?,
+            declaration: KtDeclaration,
             descriptor: DeclarationDescriptor,
-            reportOn: KtDeclaration,
             diagnosticHolder: DiagnosticSink,
             bindingContext: BindingContext
     ) {
         val functionDescriptor = descriptor as? FunctionDescriptor ?: return
         if (!functionDescriptor.isOperator) return
-        val modifier = declaration?.modifierList?.getModifier(KtTokens.OPERATOR_KEYWORD) ?: return
+        val modifier = declaration.modifierList?.getModifier(KtTokens.OPERATOR_KEYWORD) ?: return
 
         val checkResult = OperatorChecks.checkOperator(functionDescriptor)
         if (checkResult.isSuccess) return

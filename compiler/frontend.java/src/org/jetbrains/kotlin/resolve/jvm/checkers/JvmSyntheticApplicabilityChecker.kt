@@ -17,6 +17,7 @@
 package org.jetbrains.kotlin.resolve.jvm.checkers
 
 import org.jetbrains.kotlin.descriptors.DeclarationDescriptor
+import org.jetbrains.kotlin.descriptors.VariableDescriptor
 import org.jetbrains.kotlin.diagnostics.DiagnosticSink
 import org.jetbrains.kotlin.psi.KtDeclaration
 import org.jetbrains.kotlin.psi.KtProperty
@@ -29,14 +30,13 @@ import org.jetbrains.kotlin.resolve.jvm.diagnostics.ErrorsJvm
 class JvmSyntheticApplicabilityChecker : DeclarationChecker {
 
     override fun check(
-            declaration: KtDeclaration?,
+            declaration: KtDeclaration,
             descriptor: DeclarationDescriptor,
-            reportOn: KtDeclaration,
             diagnosticHolder: DiagnosticSink,
             bindingContext: BindingContext
     ) {
         val annotation = descriptor.findJvmSyntheticAnnotation() ?: return
-        if (declaration is KtProperty && declaration.hasDelegate()) {
+        if (declaration is KtProperty && descriptor is VariableDescriptor && declaration.hasDelegate()) {
             val annotationEntry = DescriptorToSourceUtils.getSourceFromAnnotation(annotation) ?: return
             diagnosticHolder.report(ErrorsJvm.JVM_SYNTHETIC_ON_DELEGATE.on(annotationEntry))
         }

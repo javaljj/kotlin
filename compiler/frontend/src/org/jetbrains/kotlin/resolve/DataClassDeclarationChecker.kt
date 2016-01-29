@@ -26,9 +26,8 @@ import org.jetbrains.kotlin.psi.KtDeclaration
 
 class DataClassDeclarationChecker : DeclarationChecker {
     override fun check(
-            declaration: KtDeclaration?,
+            declaration: KtDeclaration,
             descriptor: DeclarationDescriptor,
-            reportOn: KtDeclaration,
             diagnosticHolder: DiagnosticSink,
             bindingContext: BindingContext
     ) {

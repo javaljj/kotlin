@@ -32,13 +32,12 @@ fun DeclarationDescriptor.hasNativeAnnotation(): Boolean {
 
 class NativeFunChecker : DeclarationChecker {
     override fun check(
-            declaration: KtDeclaration?,
+            declaration: KtDeclaration,
             descriptor: DeclarationDescriptor,
-            reportOn: KtDeclaration,
             diagnosticHolder: DiagnosticSink,
             bindingContext: BindingContext
     ) {
-        if (declaration == null || !descriptor.hasNativeAnnotation()) return
+        if (!descriptor.hasNativeAnnotation()) return
 
         if (DescriptorUtils.isInterface(descriptor.containingDeclaration)) {
             diagnosticHolder.report(ErrorsJvm.EXTERNAL_DECLARATION_IN_INTERFACE.on(declaration))

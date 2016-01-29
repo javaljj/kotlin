@@ -727,28 +727,17 @@ class DeclarationsChecker(
     }
 
     private fun checkAccessors(property: KtProperty, propertyDescriptor: PropertyDescriptor) {
-        var getterChecked = false
-        var setterChecked = false
-
-        for (accessor in property.accessors) {
-            val propertyAccessorDescriptor =
-                    (if (accessor.isGetter) {
-                        getterChecked = true
-                        propertyDescriptor.getter
-                    }
-                    else {
-                        setterChecked = true
-                        propertyDescriptor.setter
-                    }) ?: throw AssertionError("No property accessor descriptor for ${property.text}")
-
-            accessor.checkTypeReferences()
-            modifiersChecker.checkModifiersForDeclaration(accessor, propertyAccessorDescriptor)
-            identifierChecker.checkDeclaration(accessor, trace)
+        for (accessorDescriptor in propertyDescriptor.accessors) {
+            val accessor = if (accessorDescriptor is PropertyGetterDescriptor) property.getter else property.setter
+            if (accessor != null) {
+                accessor.checkTypeReferences()
+                modifiersChecker.checkModifiersForDeclaration(accessor, accessorDescriptor)
+                identifierChecker.checkDeclaration(accessor, trace)
+            }
+            else {
+                modifiersChecker.runDeclarationCheckers(property, accessorDescriptor)
+            }
         }
-
-        if (!getterChecked) propertyDescriptor.getter?.let { modifiersChecker.runDeclarationCheckers(null, it, property) }
-        if (!setterChecked) propertyDescriptor.setter?.let { modifiersChecker.runDeclarationCheckers(null, it, property) }
-
         checkAccessor(propertyDescriptor, property.getter, propertyDescriptor.getter)
         checkAccessor(propertyDescriptor, property.setter, propertyDescriptor.setter)
     }

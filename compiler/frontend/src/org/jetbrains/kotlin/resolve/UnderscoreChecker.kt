@@ -18,12 +18,10 @@ package org.jetbrains.kotlin.resolve
 
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.descriptors.DeclarationDescriptor
+import org.jetbrains.kotlin.descriptors.VariableDescriptor
 import org.jetbrains.kotlin.diagnostics.DiagnosticSink
 import org.jetbrains.kotlin.diagnostics.Errors
-import org.jetbrains.kotlin.psi.KtCallableDeclaration
-import org.jetbrains.kotlin.psi.KtDeclaration
-import org.jetbrains.kotlin.psi.KtNamedDeclaration
-import org.jetbrains.kotlin.psi.KtTypeParameterListOwner
+import org.jetbrains.kotlin.psi.*
 
 object UnderscoreChecker : DeclarationChecker {
 
@@ -39,12 +37,12 @@ object UnderscoreChecker : DeclarationChecker {
     }
 
     override fun check(
-            declaration: KtDeclaration?,
+            declaration: KtDeclaration,
             descriptor: DeclarationDescriptor,
-            reportOn: KtDeclaration,
             diagnosticHolder: DiagnosticSink,
             bindingContext: BindingContext
     ) {
+        if (declaration is KtProperty && descriptor !is VariableDescriptor) return
         if (declaration is KtCallableDeclaration) {
             for (parameter in declaration.valueParameters) {
                 checkNamed(parameter, diagnosticHolder)
