@@ -96,8 +96,8 @@ val <T: Any> KClass<T>.javaClass: Class<KClass<T>>
 /**
  * Checks if array can contain element of type [T].
  */
-@Suppress("REIFIED_TYPE_PARAMETER_NO_INLINE")
-fun <reified T : Any> Array<*>.isArrayOf(): Boolean =
+//@Suppress("REIFIED_TYPE_PARAMETER_NO_INLINE")
+inline fun <reified T : Any> Array<*>.isArrayOf(): Boolean =
         T::class.java.isAssignableFrom(this.javaClass.componentType)
 
 /**
