@@ -44,7 +44,8 @@ public inline fun <T> Reader.useLines(block: (Sequence<String>) -> T): T =
         buffered().use { block(it.lineSequence()) }
 
 /** Creates a new reader for the string. */
-public fun String.reader(): StringReader = StringReader(this)
+@kotlin.internal.InlineOnly
+public inline fun String.reader(): StringReader = StringReader(this)
 
 /**
  * Returns a sequence of corresponding file lines.
@@ -149,7 +150,7 @@ public fun URL.readText(charset: Charset = Charsets.UTF_8): String = readBytes()
  */
 public fun URL.readBytes(): ByteArray = openStream().use { it.readBytes() }
 
-// TODO: Move to kotlin package, rename to using
+// TODO: Provide use kotlin package for AutoCloseable
 /**
  * Executes the given [block] function on this resource and then closes it down correctly whether an exception
  * is thrown or not.
@@ -157,6 +158,7 @@ public fun URL.readBytes(): ByteArray = openStream().use { it.readBytes() }
  * @param block a function to process this closable resource.
  * @return the result of [block] function on this closable resource.
  */
+@kotlin.internal.InlineOnly
 public inline fun <T : Closeable, R> T.use(block: (T) -> R): R {
     var closed = false
     try {

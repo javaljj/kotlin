@@ -195,14 +195,16 @@ public fun File.readLines(charset: String): List<String> = readLines(Charset.for
 /**
  * Constructs a new FileInputStream of this file and returns it as a result.
  */
-public fun File.inputStream(): FileInputStream {
+@kotlin.internal.InlineOnly
+public inline fun File.inputStream(): FileInputStream {
     return FileInputStream(this)
 }
 
 /**
  * Constructs a new FileOutputStream of this file and returns it as a result.
  */
-public fun File.outputStream(): FileOutputStream {
+@kotlin.internal.InlineOnly
+public inline fun File.outputStream(): FileOutputStream {
     return FileOutputStream(this)
 }
 
